@@ -181,10 +181,16 @@
     if (codeContainerElement.style.display != 'none') {
       new Audio("./assets/chest/chest-wood-large-storage-chest-hide.mp3").play();
       codeContainerElement.style.display = 'none';
+      lockpickAmountElement.style.display = 'none';
+      hiddenTextElement.style.display = 'unset';
       buttonShowboxTextElement.innerText = 'Show Box';
     } else {
       new Audio("./assets/chest/chest-wood-large-storage-chest-show.mp3").play();
       codeContainerElement.style.display = 'unset';
+      if (lockpickAmount < 13) {
+        lockpickAmountElement.style.display = 'unset';
+      }
+      hiddenTextElement.style.display = 'none';
       buttonShowboxTextElement.innerText = 'Hide from box';
     }
   }
