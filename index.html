@@ -38,7 +38,8 @@
       <div class="form">
         <div id="title" class="title">Welcome</div>
         <div style="display:flex; justify-content:center; align-items: center; height:200px;">
-          <audio controls src="./assets/clockworksandpaperworks.mp3"></audio>
+          <h3 style="color:#fff">Audio player has been hidden for now :3</h3>
+          <audio id="audio-player" controls src="./assets/clockworksandpaperworks.mp3"></audio>
         </div>
         <div class="button-show-box">
           <button id="button-showbox-text" onclick="showBox()">Show Box</button>
@@ -69,6 +70,7 @@
   var element = document.getElementById('mainbox');
   element.classList.remove('animate');
 
+  var audioPlayerElement = document.getElementById('audio-player');
   var codeContainerElement = document.getElementById('code-container');
   var leftBackgroundElement = document.getElementById('left-background');
   var hiddenTextElement = document.getElementById('hidden-text');
@@ -76,6 +78,9 @@
   var lockpickAmountTextElement = document.getElementById('lockpick-amount-text');
   var buttonShowboxTextElement = document.getElementById('button-showbox-text');
   let lockpickAmount = 13;
+
+  // Hiding the audioPlayer now, just to keep it away for now :3
+  audioPlayerElement.style.display = 'none';
 
   codeContainerElement.style.display = 'none';
 
