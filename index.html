@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="lockpick-amount" class="lockpick-amount">
+    <h4>Lockpicks left:&nbsp;<span id="lockpick-amount-text" style="font-weight:bold; font-size:larger"></span></h4>
+  </div>
+  <div class='parent flex-parent'>
+    <div id="left-background" class='left fadeToRight child flex-child' onmouserover="onHoverImageShowLines(event)">
+      <div id="hidden-text" class="hidden">Hello :)</div>
+    </div>
+    <div id="mainbox" class='mainbox child flex-child'>
+      <div class="lockpick-text">
+      </div>
+      <div class="form">
+        <div id="title" class="title">Welcome</div>
+        <div style="display:flex; justify-content:center; align-items: center; height:200px;">
+          <audio controls src="./assets/clockworksandpaperworks.mp3"></audio>
+        </div>
+        <fieldset class="code-container">
+          <legend class="legend-text" style="font-size:x-large; color:#dc2f55">Unbreakable Chest Level 999</legend>
+          <div class="number-code">
+            <input name='code' class='code-input' required />
+            <input name='code' class='code-input' required />
+            <input name='code' class='code-input' required />
+            <input name='code' class='code-input' required />
+            <input name='code' class='code-input' required />
+            <input name='code' class='code-input' required />
+            <input name='code' class='code-input' required />
+            <input name='code' class='code-input' required />
+            <input name='code' class='code-input' required />
+            <input name='code' class='code-input' required />
+            <input name='code' class='code-input' required />
+          </div>
+          <div class="keyhole" onclick="tickLock()"></div>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+
+<script>
+  // Code that we wrote before...
+  function delay(origin) {
+    setTimeout(() => {
+      block = false;
+      if (origin === 'BREAK') {
+        lockpickAmount--
+        lockpickAmountTextElement.innerText = lockpickAmount
+        lockpickAmountElement.style.display = "unset";
+
+      }
+    }
+      , 2048);
+  }
+
+  const inputElements = [...document.querySelectorAll('input.code-input')]
+  var element = document.getElementById('mainbox');
+  element.classList.remove('animate');
+
+  var leftBackgroundElement = document.getElementById('left-background');
+  var hiddenTextElement = document.getElementById('hidden-text');
+  var lockpickAmountElement = document.getElementById('lockpick-amount');
+  var lockpickAmountTextElement = document.getElementById('lockpick-amount-text');
+  let lockpickAmount = 13;
+
+  leftBackgroundElement.addEventListener('mouseover', onHoverImageShowLines);
+  hiddenTextElement.addEventListener('mousedown', onTouchhiddenTextElement);
+  hiddenTextElement.addEventListener('mouseup', onTouchhiddenTextElement);
+
+  const clickList = [
+    "break0.mp3",
+    "clank1.mp3",
+    "clank2.mp3",
+    "clank3.mp3",
+    "clank4.mp3",
+    "clank5.mp3",
+    "clank6.mp3",
+    "clank7.mp3",
+    "clank8.mp3",
+    "clank9.mp3",
+    "clank10.mp3",
+  ]
+
+  const lines = [
+    " ... ",
+    " ... ",
+    " ... ",
+    " ... ? ",
+    " ...Oh! ",
+    "Hello! :)",
+    "My name's Licon!",
+    "...",
+    "What's yoour name?",
+    "...",
+    "It is nice to meet you, Kai!",
+    "...",
+    "How are you?",
+    "...",
+    "That's wonderful to hear!",
+    "...",
+    "Hmm... ",
+    "Honest in all, I didn't hear you... sorry for the deception!",
+    "...",
+    "Anyway, cool lighthouse huh?",
+    "...",
+    "Mmmmhm, you're exhausting my dialogue alright",
+    "...",
+    "Here, have this <a href='https://www.youtube.com/watch?v=MtN1YnoL46Q' target='_blank'>secret (YouTube Link).</a> You've earned it! :D",
+    "Here, have this <a href='https://www.youtube.com/watch?v=MtN1YnoL46Q' target='_blank'>secret (YouTube Link).</a> You've earned it! :D"
+  ];
+  let count = 0
+  let block = false;
+
+  function rotateFunction() {
+    var deg = 1024;
+    document.getElementById('box').style.transform = "rotate(" + deg + "deg)";
+  }
+
+  function onHoverImageShowLines(event) {
+    // In case you're wondering, it is not recommended to use innerHTML as client-side input
+    // as it can be exploited with all sorts of hacker attacks
+    if (lines[count] != undefined && !block) {
+      hiddenTextElement.innerHTML = lines[count];
+      count++;
+      block = true;
+      delay('HOVER');
+    } else if (lines[count] == undefined && !block) {
+      count = 0;
+      block = true;
+      delay('HOVER');
+    }
+  }
+  function onTouchhiddenTextElement(event) {
+    if (count > 5 && count < 18) {
+      hiddenTextElement.innerText = "Hihi! ... hey, that tickles! owo"
+    }
+    if (count <= 5) {
+      hiddenTextElement.innerText = "...!"
+    }
+  }
+
+  function tickLock() {
+    // TODO: On submit parse code as youtube link if it is a valid url.
+    if (lockpickAmount > 0) {
+      let randomIndex = Math.floor(Math.random() * 11);
+      if (randomIndex === 0) {
+        block = true
+        new Audio("./assets/clanks/" + clickList[randomIndex]).play();
+        delay('BREAK')
+      }
+      if (!block) {
+        new Audio("./assets/clanks/" + clickList[randomIndex]).play();
+      }
+    } else {
+      new Audio("./assets/disabled-button.mp3").play();
+    }
+  }
+
+
+  inputElements.forEach((ele, index) => {
+    ele.addEventListener('keydown', (e) => {
+      if (e.keyCode === 8 && e.target.value === '') inputElements[Math.max(0, index - 1)].focus()
+    })
+    ele.addEventListener('input', (e) => {
+      // take the first character of the input
+      // this actually breaks if you input an emoji like 👨‍👩‍👧‍👦....
+      // but I'm willing to overlook insane security code practices.
+      const [first, ...rest] = e.target.value
+      e.target.value = first ?? '' // first will be undefined when backspace was entered, so set the input to ""
+      const lastInputBox = index === inputElements.length - 1
+      const didInsertContent = first !== undefined
+      if (didInsertContent && !lastInputBox) {
+        // continue to input the rest of the string
+        inputElements[index + 1].focus()
+        inputElements[index + 1].value = rest.join('')
+        inputElements[index + 1].dispatchEvent(new Event('input'))
+      }
+    })
+  })
+
+  // mini example on how to pull the data on submit of the form
+  function onSubmit(e) {
+    e.preventDefault()
+    const code = inputElements.map(({ value }) => value).join('')
+    console.log(code)
+  }
+</script>
+
+<style>
+  html {
+    font-family: "Open Sans";
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    background-color: #000;
+    font-family: "Open Sans";
+    overflow: hidden;
+    background-size: cover;
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mainbox {
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    padding-top: 64px;
+  }
+
+  .hidden {
+    color: white;
+    opacity: 0;
+
+    align-self: end;
+    padding: 42px;
+    background: radial-gradient(#000 0%, transparent 80%);
+  }
+
+  @keyframes fadeIn {
+
+    0%,
+    100% {
+      opacity: 0;
+    }
+
+    50% {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeOut {
+    100% {
+      opacity: 1;
+    }
+
+    0% {
+      opacity: 0;
+    }
+  }
+
+  .left {
+    display: flex;
+    position: relative;
+    color: white;
+    height: 100vh;
+  }
+
+  .fadeToRight {
+    background-blend-mode: overlay;
+    background: linear-gradient(to right, transparent 20%, rgba(0, 0, 0, 1)), url('./assets/output-nightcafe.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .left:hover .hidden {
+    margin: 20px;
+    animation: 4s fadeIn;
+    animation-fill-mode: forwards;
+  }
+
+  .flex-parent {
+    display: flex;
+  }
+
+  .flex-child {
+    flex: 1;
+  }
+
+
+  .form {
+    background-color: #15172b;
+    border-radius: 20px;
+    box-sizing: border-box;
+    height: 500px;
+    padding: 20px;
+    width: 80%;
+
+  }
+
+  .title {
+    color: #eee;
+    font-family: sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    margin-top: 30px;
+  }
+
+  .subtitle {
+    color: #eee;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
+  .input-container {
+    height: 50px;
+    position: relative;
+    width: 100%;
+  }
+
+  .ic1 {
+    margin-top: 40px;
+  }
+
+  .ic2 {
+    margin-top: 30px;
+  }
+
+  .input {
+    background-color: #303245;
+    border-radius: 12px;
+    border: 0;
+    box-sizing: border-box;
+    color: #eee;
+    font-size: 18px;
+    height: 100%;
+    outline: 0;
+    padding: 4px 20px 0;
+    width: 100%;
+  }
+
+  .cut {
+    background-color: #15172b;
+    border-radius: 10px;
+    height: 20px;
+    left: 20px;
+    position: absolute;
+    top: -20px;
+    transform: translateY(0);
+    transition: transform 200ms;
+    width: 76px;
+  }
+
+  .cut-short {
+    width: 50px;
+  }
+
+  .input:focus~.cut,
+  .input:not(:placeholder-shown)~.cut {
+    transform: translateY(8px);
+  }
+
+  .placeholder {
+    color: #65657b;
+    font-family: sans-serif;
+    left: 20px;
+    line-height: 14px;
+    pointer-events: none;
+    position: absolute;
+    transform-origin: 0 50%;
+    transition: transform 200ms, color 200ms;
+    top: 20px;
+  }
+
+  .input:focus~.placeholder,
+  .input:not(:placeholder-shown)~.placeholder {
+    transform: translateY(-30px) translateX(10px) scale(0.75);
+  }
+
+  .input:not(:placeholder-shown)~.placeholder {
+    color: #808097;
+  }
+
+  .input:focus~.placeholder {
+    color: #dc2f55;
+  }
+
+  .submit {
+    background-color: #08d;
+    border-radius: 12px;
+    border: 0;
+    box-sizing: border-box;
+    color: #eee;
+    cursor: pointer;
+    font-size: 18px;
+    height: 50px;
+    margin-top: 38px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .submit:active {
+    background-color: #06b;
+  }
+
+
+
+  /* Verify code css template */
+  .code-container {
+    background-image: url('./assets/depositphotos_179546086-stock-photo-old-chest-lock.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+  }
+
+  .legend-text {
+    font-size: x-large;
+    color: #dc2f55;
+    background: radial-gradient(#000 0%, #000 80%, transparent 100%);
+  }
+
+  .keyhole {
+    display: grid;
+    text-align: center;
+    justify-self: center;
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 64px;
+    margin-bottom: 64px;
+    padding-top: 86px;
+    margin-top: 64px;
+    width: 20%;
+    cursor: grab;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+
+  .keyhole:active {
+    cursor: grabbing;
+  }
+
+  .number-code {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+
+  .lockpick-amount {
+    display: none;
+    width: 95%;
+    z-index: 1;
+    position: absolute;
+    float: right;
+    color: #fff;
+    text-align: end;
+    margin-right: 20px;
+  }
+
+  .code-input {
+    background: #15172b;
+    font-size: 1em;
+    color: #fff;
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    flex: 1;
+  }
+</style>
+
+<!-- background-image: url("./assets/output-nightcafestudios-fantasyworldgenerator.jpg");
+background-repeat: no-repeat;
+background-size: cover;
+background-attachment: fixed; -->
