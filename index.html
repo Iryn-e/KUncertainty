@@ -8,11 +8,28 @@
 </head>
 
 <body>
-  <div id="lockpick-amount" class="lockpick-amount">
-    <h4>Lockpicks left:&nbsp;<span id="lockpick-amount-text" style="font-weight:bold; font-size:larger"></span></h4>
-  </div>
   <div class='parent flex-parent'>
     <div id="left-background" class='left fadeToRight child flex-child' onmouserover="onHoverImageShowLines(event)">
+      <div id="lockpick-amount" class="lockpick-amount">
+        <h4>Lockpicks left:&nbsp;<span id="lockpick-amount-text" style="font-weight:bold; font-size:larger"></span></h4>
+      </div>
+      <fieldset id="code-container" class="code-container">
+        <legend class="legend-text" style="font-size:x-large; color:#dc2f55">Unbreakable Chest Level 999</legend>
+        <div class="number-code">
+          <input name='code' class='code-input' required />
+          <input name='code' class='code-input' required />
+          <input name='code' class='code-input' required />
+          <input name='code' class='code-input' required />
+          <input name='code' class='code-input' required />
+          <input name='code' class='code-input' required />
+          <input name='code' class='code-input' required />
+          <input name='code' class='code-input' required />
+          <input name='code' class='code-input' required />
+          <input name='code' class='code-input' required />
+          <input name='code' class='code-input' required />
+        </div>
+        <div class="keyhole" onclick="tickLock()"></div>
+      </fieldset>
       <div id="hidden-text" class="hidden">Hello :)</div>
     </div>
     <div id="mainbox" class='mainbox child flex-child'>
@@ -23,23 +40,9 @@
         <div style="display:flex; justify-content:center; align-items: center; height:200px;">
           <audio controls src="./assets/clockworksandpaperworks.mp3"></audio>
         </div>
-        <fieldset class="code-container">
-          <legend class="legend-text" style="font-size:x-large; color:#dc2f55">Unbreakable Chest Level 999</legend>
-          <div class="number-code">
-            <input name='code' class='code-input' required />
-            <input name='code' class='code-input' required />
-            <input name='code' class='code-input' required />
-            <input name='code' class='code-input' required />
-            <input name='code' class='code-input' required />
-            <input name='code' class='code-input' required />
-            <input name='code' class='code-input' required />
-            <input name='code' class='code-input' required />
-            <input name='code' class='code-input' required />
-            <input name='code' class='code-input' required />
-            <input name='code' class='code-input' required />
-          </div>
-          <div class="keyhole" onclick="tickLock()"></div>
-        </fieldset>
+        <div class="button-show-box">
+          <button id="button-showbox-text" onclick="showBox()">Show Box</button>
+        </div>
       </div>
     </div>
   </div>
@@ -66,11 +69,15 @@
   var element = document.getElementById('mainbox');
   element.classList.remove('animate');
 
+  var codeContainerElement = document.getElementById('code-container');
   var leftBackgroundElement = document.getElementById('left-background');
   var hiddenTextElement = document.getElementById('hidden-text');
   var lockpickAmountElement = document.getElementById('lockpick-amount');
   var lockpickAmountTextElement = document.getElementById('lockpick-amount-text');
+  var buttonShowboxTextElement = document.getElementById('button-showbox-text');
   let lockpickAmount = 13;
+
+  codeContainerElement.style.display = 'none';
 
   leftBackgroundElement.addEventListener('mouseover', onHoverImageShowLines);
   hiddenTextElement.addEventListener('mousedown', onTouchhiddenTextElement);
@@ -165,6 +172,17 @@
     }
   }
 
+  function showBox() {
+    if (codeContainerElement.style.display != 'none') {
+      new Audio("./assets/chest/chest-wood-large-storage-chest-hide.mp3").play();
+      codeContainerElement.style.display = 'none';
+      buttonShowboxTextElement.innerText = 'Show Box';
+    } else {
+      new Audio("./assets/chest/chest-wood-large-storage-chest-show.mp3").play();
+      codeContainerElement.style.display = 'unset';
+      buttonShowboxTextElement.innerText = 'Hide from box';
+    }
+  }
 
   inputElements.forEach((ele, index) => {
     ele.addEventListener('keydown', (e) => {
@@ -398,10 +416,21 @@
     background-color: #06b;
   }
 
-
+  .button-show-box {
+    display: flex;
+    align-items: end;
+    height: 200px;
+  }
 
   /* Verify code css template */
   .code-container {
+    display: none;
+    position: absolute;
+    align-self: center;
+    top: 20%;
+    left: 10%;
+    width: 50%;
+    height: 40%;
     background-image: url('./assets/depositphotos_179546086-stock-photo-old-chest-lock.jpg');
     background-size: cover;
     background-position: center;
