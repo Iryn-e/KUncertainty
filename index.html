@@ -16,7 +16,7 @@
   <div id="my-modal" class="modal">
     <!-- Modal content -->
     <div class="modal-content">
-      <span class="close" onclick="hideShowModal()">&times;</span>
+      <span class="close" onclick="hideModal()">&times;</span>
       <iframe id="youtube-player" src="" allowfullscreen width="480" height="300" style="margin-bottom: 20px;"></iframe>
 
       <div class="modal-title">
@@ -108,6 +108,7 @@
         lockpickAmountElement.style.display = "unset";
       }
       if (origin === 'OPEN') {
+        audioPlayerElement.pause();
         let openCrate = new Audio("./assets/code/Item_open_crate.mp3")
         openCrate.volume = 0.8
         openCrate.play()
@@ -319,7 +320,6 @@
       if (didInsertContent && !lastInputBox) {
         // continue to input the rest of the string
         inputElements[index + 1].focus()
-        console.log(rest)
         rest.length > 0 ? inputElements[index + 1].value = rest.join('') : null;
         inputElements[index + 1].dispatchEvent(new Event('input'))
       } else {
@@ -334,13 +334,10 @@
     })
   }
 
-  function hideShowModal() {
-    if (myModalElement.style.display === 'none') {
-      myModalElement.style.display = 'unset';
-      youtubePlayerElement.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
-    } else {
-      myModalElement.style.display = 'none';
-      youtubePlayerElement.src = '';
+  function hideModal() {
+    myModalElement.style.display = 'none';
+    if (playPauseButton.classList.contains("pause")) {
+      audioPlayerElement.play();
     }
   }
 
