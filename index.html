@@ -319,7 +319,8 @@
       if (didInsertContent && !lastInputBox) {
         // continue to input the rest of the string
         inputElements[index + 1].focus()
-        inputElements[index + 1].value = rest.join('')
+        console.log(rest)
+        rest.length > 0 ? inputElements[index + 1].value = rest.join('') : null;
         inputElements[index + 1].dispatchEvent(new Event('input'))
       } else {
         onCodeEntered(e)
@@ -346,7 +347,7 @@
   // mini example on how to pull the data on submit of the form
   function onCodeEntered(e) {
     const code = inputElements.map(({ value }) => value).join('')
-    if (code.length === 11) {
+    if (code.length === 11 && !block) {
       let doop = new Audio("./assets/code/doop.wav")
       doop.volume = 0.5
       doop.play();
