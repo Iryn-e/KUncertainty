@@ -145,7 +145,7 @@ textarea {
 
 .fadeToRight {
   background-blend-mode: overlay;
-  background: linear-gradient(to right, transparent 20%, rgba(0, 0, 0, 1)), url('./assets/output-nightcafe.jpg');
+  background: linear-gradient(to right, transparent 20%, rgba(0, 0, 0, 1)), url('./images/output-nightcafe.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -306,7 +306,7 @@ textarea {
   left: 10%;
   width: 50%;
   height: 40%;
-  background-image: url('./assets/depositphotos_179546086-stock-photo-old-chest-lock.jpg');
+  background-image: url('./images/depositphotos_179546086-stock-photo-old-chest-lock.jpg');
   background-size: cover;
   background-position: center;
   color: #fff;
