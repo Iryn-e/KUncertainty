@@ -4,45 +4,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>For yours truly</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+  <!-- Whole Screen Loading -->
+  <div id="loading-screen"></div>
+
+  <!-- The Modal -->
+  <div id="my-modal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close" onclick="hideShowModal()">&times;</span>
+      <iframe id="youtube-player" src="" allowfullscreen width="480" height="300" style="margin-bottom: 20px;"></iframe>
+
+      <div class="modal-title">
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target='_blank'
+          style="color: #8650AC">https://www.youtube.com/watch?v=dQw4w9WgXcQ</a>
+      </div>
+      <div class="modal-description">
+        <p style="color: #756B5E">Level 69 Video</p>
+        <p>★ Unusual Effect: Never gonna give you up</p>
+        <p style="color: #EBE2CA">Never gonna let you down</p>
+      </div>
+    </div>
+  </div>
   <div class='parent flex-parent'>
-    <div id="left-background" class='left fadeToRight child flex-child' onmouserover="onHoverImageShowLines(event)">
+    <div id="left-background" class='left fadeToRight child flex-child'>
+
       <div id="lockpick-amount" class="lockpick-amount">
         <h4>Lockpicks left:&nbsp;<span id="lockpick-amount-text" style="font-weight:bold; font-size:larger"></span></h4>
       </div>
       <fieldset id="code-container" class="code-container">
-        <legend class="legend-text" style="font-size:x-large; color:#dc2f55">Unbreakable Chest Level 999</legend>
+        <legend class="legend-text" style="font-size:x-large; color:#dc2f55">Unbreakable Chest Level 999
+        </legend>
+        <small onclick="clearCodes()" style="cursor: pointer;">Clear</small>
         <div class="number-code">
-          <input name='code' class='code-input' required />
-          <input name='code' class='code-input' required />
-          <input name='code' class='code-input' required />
-          <input name='code' class='code-input' required />
-          <input name='code' class='code-input' required />
-          <input name='code' class='code-input' required />
-          <input name='code' class='code-input' required />
-          <input name='code' class='code-input' required />
-          <input name='code' class='code-input' required />
-          <input name='code' class='code-input' required />
-          <input name='code' class='code-input' required />
+          <input name='code' class='code-input' required placeholder="0" />
+          <input name='code' class='code-input' required placeholder="1" />
+          <input name='code' class='code-input' required placeholder="2" />
+          <input name='code' class='code-input' required placeholder="3" />
+          <input name='code' class='code-input' required placeholder="4" />
+          <input name='code' class='code-input' required placeholder="5" />
+          <input name='code' class='code-input' required placeholder="6" />
+          <input name='code' class='code-input' required placeholder="7" />
+          <input name='code' class='code-input' required placeholder="8" />
+          <input name='code' class='code-input' required placeholder="9" />
+          <input name='code' class='code-input' required placeholder="10" />
         </div>
         <div class="keyhole" onclick="tickLock()"></div>
       </fieldset>
-      <div id="hidden-text" class="hidden">Hello :)</div>
+
+      <div id="hidden-text" class="hidden"></div>
     </div>
     <div id="mainbox" class='mainbox child flex-child'>
       <div class="lockpick-text">
       </div>
       <div class="form">
-        <div id="title" class="title">Welcome</div>
+        <!-- <div id="title" class="title">Welcome</div> -->
         <div style="display:flex; justify-content:center; align-items: center; height:200px;">
-          <h3 style="color:#fff">Audio player has been hidden for now :3</h3>
-          <audio id="audio-player" controls src="./assets/clockworksandpaperworks.mp3"></audio>
+
+          <div id="app-cover">
+            <div id="player">
+              <div id="player-track">
+                <audio id="audio-player" controls src="./assets/clockworksandpaperworks.mp3"></audio>
+              </div>
+              <div id="player-content">
+                <div id="album-art">
+                  <img src="./assets/clockworks-disc.jpg" class="active" id="_1">
+                </div>
+                <div id="player-controls">
+                  <div class="control">
+                    <button class="button play" id="play-pause-button" onclick="playPause()"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="text-area">
+          <textarea id="story" name="story"
+            placeholder="In case you need to jot down a few notes ... (Only you can see this)"></textarea>
         </div>
         <div class="button-show-box">
-          <button id="button-showbox-text" onclick="showBox()">Show Box</button>
+          <button id="button-showbox-text" onclick="hideShowBox()">Show Box</button>
         </div>
       </div>
     </div>
@@ -52,7 +99,6 @@
 </html>
 
 <script>
-  // Code that we wrote before...
   function delay(origin) {
     setTimeout(() => {
       block = false;
@@ -60,29 +106,87 @@
         lockpickAmount--
         lockpickAmountTextElement.innerText = lockpickAmount
         lockpickAmountElement.style.display = "unset";
-
       }
-    }
-      , 2048);
+      if (origin === 'OPEN') {
+        let openCrate = new Audio("./assets/code/Item_open_crate.mp3")
+        openCrate.volume = 0.8
+        openCrate.play()
+        loadingScreenElement.classList.add("loading");
+        openCrate.onended = function () {
+          loadingScreenElement.classList.remove("loading");
+          myModalElement.style.display = 'unset';
+          new Audio("./assets/code/tf2-achievement-unlocked-sound.mp3").play();
+          youtubePlayerElement.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+        }
+      }
+
+      if (origin.split('-')[0] === 'CODE') {
+        if (origin === 'CODE-CORRECT') {
+          let ding = new Audio("./assets/code/ding.wav")
+          ding.volume = 0.5
+          ding.play()
+
+          delay('OPEN')
+        } else {
+          let denied = new Audio("./assets/code/denied-sound.wav")
+          denied.volume = 0.5
+          denied.play()
+          shakeBoxIncorrect()
+        }
+      }
+
+    }, 2048);
+  }
+
+  function shakeBoxIncorrect() {
+    codeContainerElement.classList.add("shake");
+    setTimeout(() => {
+      codeContainerElement.classList.remove("shake");
+    }, 1024)
+  }
+
+  function playPause() {
+    setTimeout(function () {
+      if (audioPlayerElement.paused) {
+        playerTrack.classList.add("active");
+        albumArt.classList.add("active");
+        audioPlayerElement.play();
+        playPauseButton.classList.add("pause");
+        playPauseButton.classList.remove("play");
+      } else {
+        playerTrack.classList.remove("active");
+        albumArt.classList.remove("active");
+        albumArt.classList.remove("buffering");
+        audioPlayerElement.pause();
+        playPauseButton.classList.add("play");
+        playPauseButton.classList.remove("pause");
+      }
+    }, 300);
   }
 
   const inputElements = [...document.querySelectorAll('input.code-input')]
   var element = document.getElementById('mainbox');
   element.classList.remove('animate');
+  const LOCKPICK_MAXIMUM = 13;
+  lockpickAmount = LOCKPICK_MAXIMUM;
 
-  var audioPlayerElement = document.getElementById('audio-player');
-  var codeContainerElement = document.getElementById('code-container');
-  var leftBackgroundElement = document.getElementById('left-background');
-  var hiddenTextElement = document.getElementById('hidden-text');
-  var lockpickAmountElement = document.getElementById('lockpick-amount');
-  var lockpickAmountTextElement = document.getElementById('lockpick-amount-text');
-  var buttonShowboxTextElement = document.getElementById('button-showbox-text');
-  let lockpickAmount = 13;
+  var loadingScreenElement = document.getElementById('loading-screen'),
+    youtubePlayerElement = document.getElementById('youtube-player'),
+    audioPlayerElement = document.getElementById('audio-player'),
+    codeContainerElement = document.getElementById('code-container'),
+    leftBackgroundElement = document.getElementById('left-background'),
+    hiddenTextElement = document.getElementById('hidden-text'),
+    lockpickAmountElement = document.getElementById('lockpick-amount'),
+    lockpickAmountTextElement = document.getElementById('lockpick-amount-text'),
+    buttonShowboxTextElement = document.getElementById('button-showbox-text'),
+    myModalElement = document.getElementById('my-modal');
 
-  // Hiding the audioPlayer now, just to keep it away for now :3
-  audioPlayerElement.style.display = 'none';
+  var playerTrack = document.getElementById("player-track"),
+    albumArt = document.getElementById("album-art"),
+    playPauseButton = document.getElementById("play-pause-button");
 
   codeContainerElement.style.display = 'none';
+  myModalElement.style.display = 'none';
 
   leftBackgroundElement.addEventListener('mouseover', onHoverImageShowLines);
   hiddenTextElement.addEventListener('mousedown', onTouchhiddenTextElement);
@@ -177,21 +281,26 @@
     }
   }
 
-  function showBox() {
+  function hideShowBox() {
     if (codeContainerElement.style.display != 'none') {
       new Audio("./assets/chest/chest-wood-large-storage-chest-hide.mp3").play();
       codeContainerElement.style.display = 'none';
       lockpickAmountElement.style.display = 'none';
-      hiddenTextElement.style.display = 'unset';
       buttonShowboxTextElement.innerText = 'Show Box';
+
+      hiddenTextElement.style.display = 'unset';
+      leftBackgroundElement.addEventListener('mouseover', onHoverImageShowLines);
+
     } else {
       new Audio("./assets/chest/chest-wood-large-storage-chest-show.mp3").play();
       codeContainerElement.style.display = 'unset';
-      if (lockpickAmount < 13) {
+      if (lockpickAmount < LOCKPICK_MAXIMUM) {
         lockpickAmountElement.style.display = 'unset';
       }
-      hiddenTextElement.style.display = 'none';
       buttonShowboxTextElement.innerText = 'Hide from box';
+
+      hiddenTextElement.style.display = 'none';
+      leftBackgroundElement.removeEventListener('mouseover', onHoverImageShowLines);
     }
   }
 
@@ -212,299 +321,45 @@
         inputElements[index + 1].focus()
         inputElements[index + 1].value = rest.join('')
         inputElements[index + 1].dispatchEvent(new Event('input'))
+      } else {
+        onCodeEntered(e)
       }
     })
   })
 
+  function clearCodes() {
+    inputElements.forEach(element => {
+      element.value = ""
+    })
+  }
+
+  function hideShowModal() {
+    if (myModalElement.style.display === 'none') {
+      myModalElement.style.display = 'unset';
+      youtubePlayerElement.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+    } else {
+      myModalElement.style.display = 'none';
+      youtubePlayerElement.src = '';
+    }
+  }
+
   // mini example on how to pull the data on submit of the form
-  function onSubmit(e) {
-    e.preventDefault()
+  function onCodeEntered(e) {
     const code = inputElements.map(({ value }) => value).join('')
-    console.log(code)
+    if (code.length === 11) {
+      let doop = new Audio("./assets/code/doop.wav")
+      doop.volume = 0.5
+      doop.play();
+      if (code === 'dQw4w9WgXcQ') {
+        block = true;
+        delay('CODE-CORRECT');
+      } else {
+        block = true;
+        delay('CODE-INCORRECT');
+      }
+    }
   }
 </script>
-
-<style>
-  html {
-    font-family: "Open Sans";
-    height: 100%;
-    margin: 0;
-  }
-
-  body {
-    background-color: #000;
-    font-family: "Open Sans";
-    overflow: hidden;
-    background-size: cover;
-    min-height: 100%;
-    padding: 0;
-    margin: 0;
-  }
-
-  .mainbox {
-    background-color: #000;
-    display: flex;
-    justify-content: center;
-    padding-top: 64px;
-  }
-
-  .hidden {
-    color: white;
-    opacity: 0;
-
-    align-self: end;
-    padding: 42px;
-    background: radial-gradient(#000 0%, transparent 80%);
-  }
-
-  @keyframes fadeIn {
-
-    0%,
-    100% {
-      opacity: 0;
-    }
-
-    50% {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-
-  @keyframes fadeOut {
-    100% {
-      opacity: 1;
-    }
-
-    0% {
-      opacity: 0;
-    }
-  }
-
-  .left {
-    display: flex;
-    position: relative;
-    color: white;
-    height: 100vh;
-  }
-
-  .fadeToRight {
-    background-blend-mode: overlay;
-    background: linear-gradient(to right, transparent 20%, rgba(0, 0, 0, 1)), url('./assets/output-nightcafe.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-  }
-
-  .left:hover .hidden {
-    margin: 20px;
-    animation: 4s fadeIn;
-    animation-fill-mode: forwards;
-  }
-
-  .flex-parent {
-    display: flex;
-  }
-
-  .flex-child {
-    flex: 1;
-  }
-
-
-  .form {
-    background-color: #15172b;
-    border-radius: 20px;
-    box-sizing: border-box;
-    height: 500px;
-    padding: 20px;
-    width: 80%;
-
-  }
-
-  .title {
-    color: #eee;
-    font-family: sans-serif;
-    font-size: 36px;
-    font-weight: 600;
-    margin-top: 30px;
-  }
-
-  .subtitle {
-    color: #eee;
-    font-family: sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    margin-top: 10px;
-  }
-
-  .input-container {
-    height: 50px;
-    position: relative;
-    width: 100%;
-  }
-
-  .ic1 {
-    margin-top: 40px;
-  }
-
-  .ic2 {
-    margin-top: 30px;
-  }
-
-  .input {
-    background-color: #303245;
-    border-radius: 12px;
-    border: 0;
-    box-sizing: border-box;
-    color: #eee;
-    font-size: 18px;
-    height: 100%;
-    outline: 0;
-    padding: 4px 20px 0;
-    width: 100%;
-  }
-
-  .cut {
-    background-color: #15172b;
-    border-radius: 10px;
-    height: 20px;
-    left: 20px;
-    position: absolute;
-    top: -20px;
-    transform: translateY(0);
-    transition: transform 200ms;
-    width: 76px;
-  }
-
-  .cut-short {
-    width: 50px;
-  }
-
-  .input:focus~.cut,
-  .input:not(:placeholder-shown)~.cut {
-    transform: translateY(8px);
-  }
-
-  .placeholder {
-    color: #65657b;
-    font-family: sans-serif;
-    left: 20px;
-    line-height: 14px;
-    pointer-events: none;
-    position: absolute;
-    transform-origin: 0 50%;
-    transition: transform 200ms, color 200ms;
-    top: 20px;
-  }
-
-  .input:focus~.placeholder,
-  .input:not(:placeholder-shown)~.placeholder {
-    transform: translateY(-30px) translateX(10px) scale(0.75);
-  }
-
-  .input:not(:placeholder-shown)~.placeholder {
-    color: #808097;
-  }
-
-  .input:focus~.placeholder {
-    color: #dc2f55;
-  }
-
-  .submit {
-    background-color: #08d;
-    border-radius: 12px;
-    border: 0;
-    box-sizing: border-box;
-    color: #eee;
-    cursor: pointer;
-    font-size: 18px;
-    height: 50px;
-    margin-top: 38px;
-    text-align: center;
-    width: 100%;
-  }
-
-  .submit:active {
-    background-color: #06b;
-  }
-
-  .button-show-box {
-    display: flex;
-    align-items: end;
-    height: 200px;
-  }
-
-  /* Verify code css template */
-  .code-container {
-    display: none;
-    position: absolute;
-    align-self: center;
-    top: 20%;
-    left: 10%;
-    width: 50%;
-    height: 40%;
-    background-image: url('./assets/depositphotos_179546086-stock-photo-old-chest-lock.jpg');
-    background-size: cover;
-    background-position: center;
-    color: #fff;
-  }
-
-  .legend-text {
-    font-size: x-large;
-    color: #dc2f55;
-    background: radial-gradient(#000 0%, #000 80%, transparent 100%);
-  }
-
-  .keyhole {
-    display: grid;
-    text-align: center;
-    justify-self: center;
-    align-self: center;
-    margin-left: auto;
-    margin-right: auto;
-    padding-bottom: 64px;
-    margin-bottom: 64px;
-    padding-top: 86px;
-    margin-top: 64px;
-    width: 20%;
-    cursor: grab;
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-  }
-
-  .keyhole:active {
-    cursor: grabbing;
-  }
-
-  .number-code {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2px;
-  }
-
-  .lockpick-amount {
-    display: none;
-    width: 95%;
-    z-index: 1;
-    position: absolute;
-    float: right;
-    color: #fff;
-    text-align: end;
-    margin-right: 20px;
-  }
-
-  .code-input {
-    background: #15172b;
-    font-size: 1em;
-    color: #fff;
-    width: 2em;
-    height: 2em;
-    text-align: center;
-    flex: 1;
-  }
-</style>
 
 <!-- background-image: url("./assets/output-nightcafestudios-fantasyworldgenerator.jpg");
 background-repeat: no-repeat;
