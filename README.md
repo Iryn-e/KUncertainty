@@ -9,6 +9,6 @@ The chest image is from estudiosaavedra [Source] (https://depositphotos.com/stoc
 
 The cassette tape image was gotten from rawpixel in Pinterest
 
-Most of the sound effects came from creators using Pond5, most notably from ImmersiveProductions, SoundMorph, SFXDude, DanielSound. [Source](https://www.pond5.com/sound-effects/)
+Most of the sound effects came from creators using Pond5, most notably from ImmersiveProductions, SoundMorph, SFXDude, DanielSound. [Source] (https://www.pond5.com/sound-effects/)
 
 But most importantly- Kai for being cool, playing games and making great voice acting work :)
